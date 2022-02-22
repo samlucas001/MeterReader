@@ -1,0 +1,153 @@
+﻿@model List<MeterReader.MeterReading.Model.MeterReadingWithError>
+
+@{
+    ViewData["Title"] = "Home Page";
+    int errorCount = 0;
+    int successCount = 0;
+    int totalCount = 0;
+
+    if (Model != null)
+    {
+        errorCount = Model.Where(x => x.HasError == true).Count();
+        successCount = Model.Where(x => x.HasError == false).Count();
+        //lets hope these are the same :/
+        totalCount = Model.Count();
+    }
+}
+
+@*<tr>
+    <td>Uplaod meter reading csv:</td>
+    <td>
+        <input type="button" value="upload" />
+    </td>
+
+</tr>*@
+<tr>
+    <td>
+        
+        <span class="sr-only">Loading...</span>
+    </td>
+
+</tr>
+
+
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+        <br/>
+        <br/>
+        <div>
+            <span>
+                Uplaod meter reading csv: @Html.TextBox("file", "", new { type= "file", accept="csv/*,.csv" } ) <br />
+            </span>
+            <div class="upload-spinner-container">
+                <span>
+                    <input id="upload" class="max-width" type="submit" value="Upload" style="display: none;"/>                    
+                    <i id="spinner" class="fa fa-circle-o-notch fa-spin fa-1x fa-fw"  style="margin-left: 45px; display: none;"></i>    
+                </span>
+             </div>
+            @ViewBag.Message        
+        </div>
+}
+
+<script>
+    $(document).ready(function() {
+        //$("#upload").html("xxxxx");
+        
+        $("#file").change(function () {
+            $("#upload").css("display", "block");
+        });
+
+        $("#upload").click(function () {
+            $("#upload").css("display", "none");
+            $("#spinner").css("display", "block");
+        });
+        $("#showErrors").click(function (){
+            $("#divShowErrors").toggle("slow", function() {
+            });
+        });
+
+    });
+
+</script>
+
+
+<div>
+    <br/>
+    <br/>
+    @if (Model != null)
+    {
+        <div>
+            <span class="success" >Imported with success of @successCount / @totalCount</span>
+        </div>
+        <div>
+            <span class="fail">Imported with errors of @errorCount / @totalCount </span>
+            <span class="error-padding" id="showErrors">Click to show errors</span>
+        </div>
+
+        <div id="divShowErrors" style="display: none;">
+            @foreach (var m in Model.Where(x => x.HasError == true).ToList())
+            {
+                 <div class="error-results-div">
+                    <span>@m.ErrorMessage</span>
+                </div>
+            }
+        </div>
+    }
+
+
+   @* @if (Model != null)
+    {
+        foreach (var m in Model)
+        {
+            @($"{m.HasError} - {m.ErrorMessage}");
+        }
+    }*@
+</div>
+
+<style>
+    .success{
+        color: green;
+    }
+
+    .fail{
+        color: red;
+    }
+
+    .error-padding{
+        padding-left: 50px;
+    }
+
+    .no-display{
+    }
+
+    .error-results-div{
+        border: gray solid 0.1px; 
+        padding:0px 10px; 
+        width:700px;
+    }
+
+    .max-width{
+        width:100%;
+    }
+
+    .upload-spinner-container{
+        width: 100px;
+    }
+
+</style>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+
+@*@foreach(var v in Model)
+{
+    <tr>
+        @v.FirstName @v.LastName
+
+    </tr>    
+    
+}*@

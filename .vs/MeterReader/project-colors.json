@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "9db19bcd-8f83-4978-800b-ae1cc3adbcdd": {
+      "ProjectGuid": "9db19bcd-8f83-4978-800b-ae1cc3adbcdd",
+      "DisplayName": "MeterReader",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
