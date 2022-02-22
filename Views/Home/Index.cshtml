@@ -8,6 +8,7 @@
 
     if (Model != null)
     {
+        //get some data to show counts, could do that in code below, but having in one place is nice
         errorCount = Model.Where(x => x.HasError == true).Count();
         successCount = Model.Where(x => x.HasError == false).Count();
         //lets hope these are the same :/
@@ -15,66 +16,40 @@
     }
 }
 
-@*<tr>
-    <td>Uplaod meter reading csv:</td>
-    <td>
-        <input type="button" value="upload" />
-    </td>
-
-</tr>*@
-<tr>
-    <td>
-        
-        <span class="sr-only">Loading...</span>
-    </td>
-
-</tr>
-
-
-
 @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-        <br/>
-        <br/>
-        <div>
-            <span>
-                Uplaod meter reading csv: @Html.TextBox("file", "", new { type= "file", accept="csv/*,.csv" } ) <br />
-            </span>
-            <div class="upload-spinner-container">
-                <span>
-                    <input id="upload" class="max-width" type="submit" value="Upload" style="display: none;"/>                    
-                    <i id="spinner" class="fa fa-circle-o-notch fa-spin fa-1x fa-fw"  style="margin-left: 45px; display: none;"></i>    
-                </span>
-             </div>
-            @ViewBag.Message        
+<br/>
+<br/>
+<div>
+    <span>        
+        First line has headers? <input type="checkbox" name="chkCheckbox" id="chkCheckbox" />
+    </span>
+</div>
+<div>
+    <span>
+        Uplaod meter reading csv: @Html.TextBox("file", "", new { type= "file", accept="csv/*,.csv" } ) <br />
+    </span>
+    <div class="upload-spinner-container">
+        <span>
+            <input id="upload" class="max-width" type="submit" value="Upload" style="display: none;"/>                    
+            <i id="spinner" class="fa fa-circle-o-notch fa-spin fa-1x fa-fw"  style="margin-left: 45px; display: none;"></i>    
+        </span>
         </div>
+    @ViewBag.Message        
+</div>
 }
 
-<script>
-    $(document).ready(function() {
-        //$("#upload").html("xxxxx");
-        
-        $("#file").change(function () {
-            $("#upload").css("display", "block");
-        });
+@*
+three things to do:
+    - add check for first line is headers
+    - fix up end point in the home controller
+    - test for blank row in csv
 
-        $("#upload").click(function () {
-            $("#upload").css("display", "none");
-            $("#spinner").css("display", "block");
-        });
-        $("#showErrors").click(function (){
-            $("#divShowErrors").toggle("slow", function() {
-            });
-        });
+*@
 
-    });
-
-</script>
 
 
 <div>
-    <br/>
-    <br/>
     @if (Model != null)
     {
         <div>
@@ -94,18 +69,34 @@
             }
         </div>
     }
-
-
-   @* @if (Model != null)
-    {
-        foreach (var m in Model)
-        {
-            @($"{m.HasError} - {m.ErrorMessage}");
-        }
-    }*@
 </div>
 
+<script>
+    $(document).ready(function() {
+        //i would split this out to a js file but kept here for readability
+        
+        //on file upload show the upload button
+        $("#file").change(function () {
+            $("#upload").css("display", "block");
+        });
+
+        //when upload is clicked show a spinner to give feedback we are doing something
+        $("#upload").click(function () {
+            $("#upload").css("display", "none");
+            $("#spinner").css("display", "block");
+        });
+
+        //errors are hidden, click on the show button to show a list of the errors
+        $("#showErrors").click(function (){
+            $("#divShowErrors").toggle("slow", function() {
+            });
+        });
+
+    });
+</script>
+
 <style>
+    /*i would split this out to a css file or even better to a sass or less file but kept here for readability*/
     .success{
         color: green;
     }
@@ -134,20 +125,4 @@
     .upload-spinner-container{
         width: 100px;
     }
-
 </style>
-
-<br />
-<br />
-<br />
-<br />
-<br />
-
-@*@foreach(var v in Model)
-{
-    <tr>
-        @v.FirstName @v.LastName
-
-    </tr>    
-    
-}*@

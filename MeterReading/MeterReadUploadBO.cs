@@ -7,13 +7,16 @@ namespace MeterReader.Models
     {
         public List<MeterReadingWithError> UploadMeterReading(string meterFile, bool firstRowHeaders)
         {
+            //split the file, and skip first line if needed
             var splitText = meterFile.Split("\r\n").Skip(Convert.ToInt32(firstRowHeaders));
 
             var counter = 1;
             List<string> errors = new List<string>();
             List<MeterReadingWithError> meterReadings = new List<MeterReadingWithError>();
 
-            //want to split this out to a "test" datatypes
+            //want to split this out to a "test" datatypes, was thinking of adding this to some helper class as i repeated myself twice 
+            //but wanted detaile errors, and started to get pressed for tuime
+
             foreach (var v in splitText)
             {
                 var values = v.Split(',');
@@ -23,47 +26,52 @@ namespace MeterReader.Models
                 int iValue = 0;
                 var dValue = new DateTime();
 
-                if (int.TryParse(values[0], out iValue))
+                //check if there is errors on this line - got caught out with there being a blank entry on the last line
+                if (string.IsNullOrEmpty(values[0]))
                 {
-                    mr.AccountId = iValue;
+                    mr.HasError = true;
+                    mr.ErrorMessage += $"No data at line {counter}";
                 }
                 else
                 {
-                    mr.HasError = true;
-                    mr.ErrorMessage += $"Error at line {counter} for accountId expexted int but got '{ values[0] }'";
-                }
+                    if (int.TryParse(values[0], out iValue))
+                    {
+                        mr.AccountId = iValue;
+                    }
+                    else
+                    {
+                        mr.HasError = true;
+                        mr.ErrorMessage += $"Error at line {counter} for accountId expexted int but got '{ values[0] }'";
+                    }
 
-                if (DateTime.TryParse(values[1], out dValue))
-                {
-                    mr.DateTimeEntered = dValue;
-                }
-                else
-                {
-                    mr.HasError = true;
-                    mr.ErrorMessage += $"Error at line {counter} for reading date time expexted date time but got '{ values[1] }'";
-                }
+                    if (DateTime.TryParse(values[1], out dValue))
+                    {
+                        mr.DateTimeEntered = dValue;
+                    }
+                    else
+                    {
+                        mr.HasError = true;
+                        mr.ErrorMessage += $"Error at line {counter} for reading date time expexted date time but got '{ values[1] }'";
+                    }
 
-                if (int.TryParse(values[2], out iValue))
-                {
-                    mr.ValueEntered = iValue;
-                }
-                else
-                {
-                    mr.HasError = true;
-                    mr.ErrorMessage += $"Error at line {counter} for read value expexted int but got '{ values[2] }'";
+                    if (int.TryParse(values[2], out iValue))
+                    {
+                        mr.ValueEntered = iValue;
+                    }
+                    else
+                    {
+                        mr.HasError = true;
+                        mr.ErrorMessage += $"Error at line {counter} for read value expexted int but got '{ values[2] }'";
+                    }
                 }
 
                 meterReadings.Add(mr);
                 counter++;
             }
 
-            //call db thing whcihj will retirn errors, concat the erroir list anbd return back
-
-
-
             return meterReadings;
-
         }
 
     }
+
 }

@@ -15,6 +15,7 @@ namespace MeterReader.MeterReading
 
         public void UploadData(List<MeterReadingWithError> meterReadings)
         {
+            //added try catch from testing and would do more detailed error handling but pressed for time
             try
             {
                 //get the list of readings and only get the ones with no errors
@@ -76,34 +77,13 @@ namespace MeterReader.MeterReading
                             }
                         }
                     }
-                
-
-                //var entry = (from acc in _context.Account
-                //             join mrd in _context.MeterReadingData on acc.AccountId equals mrd.AccountId
-                //             where acc.AccountId == mr.AccountId
-                //             select mrd).ToList();
-
-
-                //if (entry != null)
-                //{
-                //    //we have a valid accountid
-                //    //check all the data is not the same vlaue and date
-
-                //}
-                //else
-                //{ 
-                //    //throw error as this account does not exist
-                //}
-
-
+                }
             }
-            }
+            //added try catch from testing and would do more detailed error handling but pressed for time
             catch (Exception ex)
             {
                 var message = ex.Message;
             }
-
-            //var people = _context.Account.ToList();
         }
 
     }
