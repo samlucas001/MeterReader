@@ -5,6 +5,13 @@ namespace MeterReader.Models
 {
     public class MeterReadUploadBO : IMeterReadUploadBO
     {
+        private readonly IMeterReadUploadDAO _meterReadUploadDAO;
+
+        public MeterReadUploadBO(IMeterReadUploadDAO meterReadUploadDAO)
+        {
+            _meterReadUploadDAO = meterReadUploadDAO;
+        }
+
         public List<MeterReadingWithError> UploadMeterReading(string meterFile, bool firstRowHeaders)
         {
             //split the file, and skip first line if needed
@@ -68,6 +75,10 @@ namespace MeterReader.Models
                 meterReadings.Add(mr);
                 counter++;
             }
+
+
+            //there is now a list of legit (and errored) readings, send them to the data object layer to get consumed
+            _meterReadUploadDAO.UploadData(meterReadings);
 
             return meterReadings;
         }

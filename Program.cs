@@ -43,9 +43,6 @@ app.MapPost("/meter-reading-uploads", async (HttpRequest request, IMeterReadUplo
     //send the data to read the content of the file
     List<MeterReadingWithError> meterReadings = meterReadUploadBO.UploadMeterReading(text, firstLineHeaders);
 
-    //there is now a list of legit (and errored) readings, send them to the data object layer to get consumed
-    meterReadUploadDAO.UploadData(meterReadings);
-
     //send the results back to the controller
     return Results.Ok(meterReadings);
 });

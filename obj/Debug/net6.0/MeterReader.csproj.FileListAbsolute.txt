@@ -1,4 +1,3 @@
-D:\Websites\MeterReader\obj\Debug\net6.0\MeterReader.csproj.AssemblyReference.cache
 D:\Websites\MeterReader\obj\Debug\net6.0\MeterReader.GeneratedMSBuildEditorConfig.editorconfig
 D:\Websites\MeterReader\obj\Debug\net6.0\MeterReader.AssemblyInfoInputs.cache
 D:\Websites\MeterReader\obj\Debug\net6.0\MeterReader.AssemblyInfo.cs
@@ -28,6 +27,7 @@ D:\Websites\MeterReader\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
 D:\Websites\MeterReader\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\Websites\MeterReader\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 D:\Websites\MeterReader\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\Websites\MeterReader\bin\Debug\net6.0\Newtonsoft.Json.dll
 D:\Websites\MeterReader\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
 D:\Websites\MeterReader\bin\Debug\net6.0\System.Drawing.Common.dll
 D:\Websites\MeterReader\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
@@ -57,4 +57,3 @@ D:\Websites\MeterReader\obj\Debug\net6.0\MeterReader.dll
 D:\Websites\MeterReader\obj\Debug\net6.0\ref\MeterReader.dll
 D:\Websites\MeterReader\obj\Debug\net6.0\MeterReader.pdb
 D:\Websites\MeterReader\obj\Debug\net6.0\MeterReader.genruntimeconfig.cache
-D:\Websites\MeterReader\bin\Debug\net6.0\Newtonsoft.Json.dll

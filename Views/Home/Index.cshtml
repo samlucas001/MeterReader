@@ -27,7 +27,7 @@
 </div>
 <div>
     <span>
-        Uplaod meter reading csv: @Html.TextBox("file", "", new { type= "file", accept="csv/*,.csv" } ) <br />
+        Uplaod meter reading csv: @Html.TextBox("file-upload", "", new { type= "file", accept="csv/*,.csv" } ) <br />
     </span>
     <div class="upload-spinner-container">
         <span>
@@ -39,16 +39,8 @@
 </div>
 }
 
-@*
-three things to do:
-    - add check for first line is headers
-    - fix up end point in the home controller
-    - test for blank row in csv
-
-*@
-
-
-
+<br />
+<br />
 <div>
     @if (Model != null)
     {
@@ -76,8 +68,18 @@ three things to do:
         //i would split this out to a js file but kept here for readability
         
         //on file upload show the upload button
-        $("#file").change(function () {
-            $("#upload").css("display", "block");
+        $("#file-upload").change(function () {
+
+            var validExtensions = ["csv"] 
+            var file = $(this).val().split('.').pop();
+            if (validExtensions.indexOf(file) == -1) {
+                $("#upload").css("display", "none");
+                alert("Only formats are allowed : " + validExtensions.join(', '));
+            }
+            else
+            {
+                $("#upload").css("display", "block");
+            }
         });
 
         //when upload is clicked show a spinner to give feedback we are doing something
